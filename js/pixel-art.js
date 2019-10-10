@@ -22,30 +22,67 @@ var nombreColores = ['White', 'LightYellow',
 
 // Variable para guardar el elemento 'color-personalizado'
 // Es decir, el que se elige con la rueda de color.
+
 var paleta = document.getElementById("paleta");
 var grillaPixeles = document.getElementById("grilla-pixeles");
 var colorPersonalizado = document.getElementById('color-personalizado');
+var indicadorColor = document.getElementById("indicador-de-color");
+var guardarPixelButton = document.getElementById("guardar");
+var clickDibujar = false;
 
-function colores (nombreColores){
-  for( var i = 0; i<nombreColores.length; i++){
-    var crearElemento = document.createElement("div");
-    crearElemento.style.backgroundColor =  nombreColores[i];
-    document.getElementById("paleta").appendChild(crearElemento);
-   // creas un elemento usando el objeto document
-  // usando Jquery le cambias el color de fondo
-  // usando jquery lo agregas al elemento Paleta
-  }
+function eventSeleccionPaleta(event) {
+  selecionarColor(event.target.style.backgroundColor);
 }
 
+function eventDibujarClick(event){
+  event.target.style.backgroundColor = indicadorColor.style.backgroundColor;
+  clickDibujar = !clickDibujar
+}
+
+function eventMouseOver(event) {
+  if( clickDibujar ) {
+    event.target.style.backgroundColor = indicadorColor.style.backgroundColor;
+  }
+  
+}
+
+function colores (nombreColores){
+  for( var i = 0; i < nombreColores.length; i++){
+    var crearElemento = document.createElement("div");
+    crearElemento.onclick = eventSeleccionPaleta
+    crearElemento.style.backgroundColor =  nombreColores[i];
+    document.getElementById("paleta").appendChild(crearElemento);
+  }
+}
+ function grilla (grillaPixeles){
+   for(var i =0; i < 1750; i++){
+    var crearGrilla = document.createElement("div");
+    crearGrilla.onclick = eventDibujarClick
+    crearGrilla.onmouseover = eventMouseOver
+    crearGrilla.style.backgroundColor = grillaPixeles[i];
+    document.getElementById("grilla-pixeles").appendChild(crearGrilla);
+   }
+ }
 
 
+grilla(grillaPixeles);
+
+
+function selecionarColor(nuevoColor) {
+  indicadorColor.style.backgroundColor = nuevoColor;
+}
+
+/**
+ * Agregar eventos
+ */
 colorPersonalizado.addEventListener('change', 
   (function() {
-    // Se guarda el color de la rueda en colorActual
     colorActual = colorPersonalizado.value;
-    // Completar para que cambie el indicador-de-color al colorActual
-
-
+    indicadorColor.style.backgroundColor = colorActual;
   })
-);
+)
+
+guardarPixelButton.onclick = guardarPixelArt
+
 colores(nombreColores);
+
