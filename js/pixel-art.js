@@ -29,19 +29,20 @@ var colorPersonalizado = document.getElementById('color-personalizado');
 var indicadorColor = document.getElementById("indicador-de-color");
 var guardarPixelButton = document.getElementById("guardar");
 var clickDibujar = false;
+var borrarLienzoButton = document.getElementById("borrar");
 
 function eventSeleccionPaleta(event) {
   selecionarColor(event.target.style.backgroundColor);
 }
 
 function eventDibujarClick(event){
-  event.target.style.backgroundColor = indicadorColor.style.backgroundColor;
+  event.target.style.background = indicadorColor.style.backgroundColor;
   clickDibujar = !clickDibujar
 }
 
 function eventMouseOver(event) {
   if( clickDibujar ) {
-    event.target.style.backgroundColor = indicadorColor.style.backgroundColor;
+    event.target.style.background = indicadorColor.style.backgroundColor;
   }
   
 }
@@ -59,7 +60,7 @@ function colores (nombreColores){
     var crearGrilla = document.createElement("div");
     crearGrilla.onclick = eventDibujarClick
     crearGrilla.onmouseover = eventMouseOver
-    crearGrilla.style.backgroundColor = grillaPixeles[i];
+    crearGrilla.style.background = grillaPixeles[i];
     document.getElementById("grilla-pixeles").appendChild(crearGrilla);
    }
  }
@@ -67,6 +68,10 @@ function colores (nombreColores){
 
 grilla(grillaPixeles);
 
+function borrarLienzo (){
+  //background:
+  $("#grilla-pixeles div").animate({backgroundColor: "white"}, 2000);
+}
 
 function selecionarColor(nuevoColor) {
   indicadorColor.style.backgroundColor = nuevoColor;
@@ -82,7 +87,8 @@ colorPersonalizado.addEventListener('change',
   })
 )
 
-guardarPixelButton.onclick = guardarPixelArt
+borrarLienzoButton.onclick = borrarLienzo;
+guardarPixelButton.onclick = guardarPixelArt;
 
 colores(nombreColores);
 
