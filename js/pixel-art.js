@@ -42,9 +42,15 @@ function eventDibujarClick(event){
 
 function eventMouseOver(event) {
   if( clickDibujar ) {
+    $("#grilla-pixeles div").removeClass("pixel-transition");
     event.target.style.background = indicadorColor.style.backgroundColor;
   }
   
+}
+
+function clickCargarSuperheroe(heroe) {
+  $("#grilla-pixeles div").addClass("pixel-transition");
+  cargarSuperheroe(heroe)
 }
 
 function colores (nombreColores){
@@ -69,7 +75,7 @@ function colores (nombreColores){
 grilla(grillaPixeles);
 
 function borrarLienzo (){
-  //background:
+  
   $("#grilla-pixeles div").animate({backgroundColor: "white"}, 2000);
 }
 
