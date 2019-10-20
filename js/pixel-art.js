@@ -28,16 +28,59 @@ var grillaPixeles = document.getElementById("grilla-pixeles");
 var colorPersonalizado = document.getElementById('color-personalizado');
 var indicadorColor = document.getElementById("indicador-de-color");
 var guardarPixelButton = document.getElementById("guardar");
-var clickDibujar = false;
 var borrarLienzoButton = document.getElementById("borrar");
+var clickDibujar = false;
+
+//funciones 
+
+function colores (nombreColores) {
+  for( var i = 0; i < nombreColores.length; i++){
+    var crearElemento = document.createElement("div");
+    crearElemento.onclick = eventSeleccionPaleta
+    crearElemento.style.backgroundColor =  nombreColores[i];
+    document.getElementById("paleta").appendChild(crearElemento);
+  }
+}
+colores(nombreColores);
+
+function grilla (grillaPixeles) {
+   for(var i =0; i < 1750; i++){
+    var crearGrilla = document.createElement("div");
+    crearGrilla.onmouseover = eventMouseOver;
+    crearGrilla.onmousedown = eventMouseDown;
+    crearGrilla.onmouseup = eventMouseUp;
+    crearGrilla.style.background = grillaPixeles[i];
+    document.getElementById("grilla-pixeles").appendChild(crearGrilla);
+   }
+ }
+
+grilla(grillaPixeles);
+
+colorPersonalizado.addEventListener('change', 
+  (function() {
+    colorActual = colorPersonalizado.value;
+    indicadorColor.style.backgroundColor = colorActual;
+  })
+)
+
+// Eventos
+
+function selecionarColor(nuevoColor) {
+  indicadorColor.style.backgroundColor = nuevoColor;
+}
 
 function eventSeleccionPaleta(event) {
   selecionarColor(event.target.style.backgroundColor);
 }
 
-function eventDibujarClick(event){
+
+function eventMouseDown(event) {
   event.target.style.background = indicadorColor.style.backgroundColor;
-  clickDibujar = !clickDibujar
+  clickDibujar = true
+}
+
+function eventMouseUp(event) {
+  clickDibujar = false;
 }
 
 function eventMouseOver(event) {
@@ -48,53 +91,24 @@ function eventMouseOver(event) {
   
 }
 
+function borrarLienzo (){
+  $("#grilla-pixeles div").animate({backgroundColor: "white"}, 2000);
+}
+
 function clickCargarSuperheroe(heroe) {
   $("#grilla-pixeles div").addClass("pixel-transition");
   cargarSuperheroe(heroe)
 }
 
-function colores (nombreColores){
-  for( var i = 0; i < nombreColores.length; i++){
-    var crearElemento = document.createElement("div");
-    crearElemento.onclick = eventSeleccionPaleta
-    crearElemento.style.backgroundColor =  nombreColores[i];
-    document.getElementById("paleta").appendChild(crearElemento);
-  }
-}
- function grilla (grillaPixeles){
-   for(var i =0; i < 1750; i++){
-    var crearGrilla = document.createElement("div");
-    crearGrilla.onclick = eventDibujarClick
-    crearGrilla.onmouseover = eventMouseOver
-    crearGrilla.style.background = grillaPixeles[i];
-    document.getElementById("grilla-pixeles").appendChild(crearGrilla);
-   }
- }
-
-
-grilla(grillaPixeles);
-
-function borrarLienzo (){
-  
-  $("#grilla-pixeles div").animate({backgroundColor: "white"}, 2000);
-}
-
-function selecionarColor(nuevoColor) {
-  indicadorColor.style.backgroundColor = nuevoColor;
-}
 
 /**
  * Agregar eventos
  */
-colorPersonalizado.addEventListener('change', 
-  (function() {
-    colorActual = colorPersonalizado.value;
-    indicadorColor.style.backgroundColor = colorActual;
-  })
-)
 
 borrarLienzoButton.onclick = borrarLienzo;
 guardarPixelButton.onclick = guardarPixelArt;
 
-colores(nombreColores);
+
+
+
 
